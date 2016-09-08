@@ -23,13 +23,33 @@ Table::Table() {
 
 void Table::PlayHand() {
 	handNumber++;
-	//system("clear");
+	system("cls");
 	cout << "Place Your Bets\n";
 	for (unsigned i = 0; i < PlayerList.size(); i++) {
 		cout << PlayerList[i].name << " bets ";
 		cin >> PlayerList[i].currentBet;
 	}
 	cout << "All bets are in\n";
+	Deal();
+	PrintHand();
+	if (TimeToShuffle()) {
+		cout << "Time To Shuffle" << endl;
+		KnuthShuffle();
+		ithCard = 0;
+	}
+	cout << "Play Again? Type 'NO' to quit" << endl;
+	string answer;
+	cin >> answer;
+	if (answer == "NO" || answer == "no") return;
+	else PlayHand();
+
+	
+
+
+
+}
+
+void Table::Deal() {
 	//Deal PLAYERS their FIRSTCARD
 	for (int i = 0; i < PlayerList.size(); i++) {
 		PlayerList[i].firstCard = Deck[ithCard];
@@ -46,7 +66,9 @@ void Table::PlayHand() {
 	//Deal the Dealler their SECONDCARD
 	dealerSecond = Deck[ithCard];
 	ithCard++;
+}
 
+void Table::PrintHand() {
 	for (int i = 0; i < PlayerList.size(); i++) {
 		cout << PlayerList[i].name << ": ";
 		cout << PlayerList[i].firstCard.rank << " of ";
@@ -59,7 +81,6 @@ void Table::PlayHand() {
 	cout << dealerFirst.suit << " , ";
 	cout << dealerSecond.rank << " of ";
 	cout << dealerSecond.suit << endl;
-
 }
 
 bool Table::TimeToShuffle() {

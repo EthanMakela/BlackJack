@@ -28,6 +28,8 @@ public:
 	Table();
 	~Table();
 	void PlayHand();
+	void Deal();
+	void PrintHand();
 	void SimluateHands(int numbOfHands);
 	bool TimeToShuffle();
 	//Shuffling
