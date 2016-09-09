@@ -14,4 +14,5 @@ public:
 	string name;
 	Player();
 	~Player();
+	
 };

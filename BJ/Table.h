@@ -32,14 +32,16 @@ public:
 	void TakeBets();
 	void PrintHand();
 	void SimluateHands(int numbOfHands);
-	bool TimeToShuffle();
+	
 	//Shuffling
 	void KnuthShuffle(void);
 	void Swap(Card& a, Card& b);
+	bool TimeToShuffle();
 	//void Shuffle();
 	int Random();
 	//Setup
 	void AddPlayers();
+	void AddNewPlayers();
 	void CreateDeck();
 	//Tests
 	void PrintDeck();

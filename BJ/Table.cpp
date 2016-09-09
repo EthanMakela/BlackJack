@@ -9,7 +9,6 @@ Table::Table() {
 	numbOfPlayers = 0;
 	numbOfDecks = 0;
 	deckSize = numbOfDecks * 52;
-	minBet = 5;
 	tableStakes = 100;
 	vector<Player> PlayerList;
 	vector<Card> Deck;
@@ -23,7 +22,7 @@ Table::Table() {
 
 void Table::PlayHand() {
 	handNumber++;
-	string answer;
+	int answer;
 	system("cls");
 
 
@@ -35,22 +34,109 @@ void Table::PlayHand() {
 		KnuthShuffle();
 		ithCard = 0;
 	}
-	cout << "Play Again? Type 'NO' to quit" << endl;
-	
+	cout << "Play Again? " << endl;
+	cout << "1) Yes		2) No	 3)	Hit the ATM		4)Add New Player	5)Remove Player" << endl;
 	cin >> answer;
-	if (answer == "NO" || answer == "no") return;
-	else PlayHand();
-	
-	
-
-
+	switch (answer) {
+	case 1:
+		PlayHand();
+		break;
+	case 2:
+		//PrintTableStats
+		return;
+	case 3:
+		//AddMoney()
+		break;
+	case 4:
+		AddNewPlayers();
+	default:
+		PlayHand();
+		break;
+	}
+}
+void Table::AddNewPlayers() {
 
 }
 
 void Table::TakeBets() {
 	cout << "Place Your Bets\n";
-	//vector<int>::iterator* it = PlayerList.begin();
-	for (unsigned i = 0; i < PlayerList.size(); i++) {
+	vector<Player>::iterator it; 
+	Player current;
+	bool leavingPlayer = false;
+	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+		current = *it;
+		cout << current.name << " bets ";
+		cin >> current.currentBet;
+		if (current.bankRoll < current.currentBet || current.currentBet < 0 || current.currentBet < minBet) {
+			if (current.currentBet < 0) {
+				cout << "Thats funny get off the table" << endl;
+				//PrintPlayerStats
+				leavingPlayer = true;
+
+			}
+			else if (current.currentBet < minBet) {
+				cout << "Table mininum is " << minBet << endl;
+			}
+			else {
+				cout << "You do not have enough money" << endl;
+				cout << "You have $" << current.bankRoll << " left ";
+
+				cout << "Would you still like to play?" << endl;
+				cout << "1) Leave Table		2)Add Money		3)Keep Playing" << endl;
+
+				int answer;
+				cin >> answer;
+				switch (answer) {
+				case 1:
+					//PrintPlayerStats();
+					leavingPlayer = true;
+
+					break;
+				case 2:
+					cout << "How much money would you like to add to your bankroll" << endl;
+					int addedMoney;
+					cin >> addedMoney;
+					current.bankRoll += addedMoney;
+					//current.moneyWithdrawn += addedMoney;
+					break;
+				default:
+					cout << "You can always sit out a hand by betting $0" << endl;
+					break;
+				}
+			}
+			if (leavingPlayer == false) {
+				cout << "Place your bet" << endl;
+				cin >> current.currentBet;
+			}
+		}
+
+		if (current.bankRoll < current.currentBet && leavingPlayer == false) {
+			cout << "Get off my table" << endl;
+			leavingPlayer = true;
+		}
+		current.bankRoll -= current.currentBet;
+		if (leavingPlayer == true) {
+			if (PlayerList.size() == 1)
+				//PrintFullStats
+				exit(1);
+
+			else {
+				it--;
+				PlayerList.erase(it + 1);
+			}
+		}
+
+		else {
+			*it = current;
+		}
+	
+	}
+	
+	cout << "All bets are in\n";
+}
+
+
+/*for (unsigned i = 0; i < PlayerList.size(); i++) {
 		cout << PlayerList[i].name << " bets ";
 		cin >> PlayerList[i].currentBet;
 		while (PlayerList[i].bankRoll < PlayerList[i].currentBet || PlayerList[i].currentBet < 0 || PlayerList[i].currentBet < minBet) {
@@ -64,38 +150,43 @@ void Table::TakeBets() {
 				cout << "You do not have enough money" << endl;
 				cout << "You have $" << PlayerList[i].bankRoll << " left ";
 			}
-			/*cout << "would you still like to play?" << endl;
+			cout << "would you still like to play?" << endl;
 			cin >> answer;
-			if(answer == "yes"){*/
-			cout << "Place your bet" << endl;
-			cin >> PlayerList[i].currentBet;
-			if (PlayerList[i].bankRoll < PlayerList[i].currentBet) {
-				cout << "Sober Up" << endl;
-				cout << "If you are done playing bet $0" << endl;
-			}
+			if(answer == "yes"){
+cout << "Place your bet" << endl;
+cin >> PlayerList[i].currentBet;
+if (PlayerList[i].bankRoll < PlayerList[i].currentBet) {
+	cout << "Sober Up" << endl;
+	cout << "If you are done playing bet $0" << endl;
+}
 		}
 		PlayerList[i].bankRoll -= PlayerList[i].currentBet;
 	}
-	cout << "All bets are in\n";
-}
+	cout << "All bets are in\n"; */
 
 void Table::Deal() {
 	//Deal PLAYERS their FIRSTCARD
-	for (int i = 0; i < PlayerList.size(); i++) {
-		if (PlayerList[i].currentBet != 0) {
-			PlayerList[i].firstCard = Deck[ithCard];
+	Player current;
+	vector<Player>::iterator it;
+	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+		current = *it;
+		if (current.currentBet != 0) {
+			current.firstCard = Deck[ithCard];
 			ithCard++;
 		}
+		*it = current;
 	}
 	//Deal the DEALLER their FIRSTCARD
 	dealerFirst = Deck[ithCard];
 	ithCard++;
 	//Deal the PLAYERS their SECONDCARD
-	for (int i = 0; i < PlayerList.size(); i++) {
-		if (PlayerList[i].currentBet != 0) {
-			PlayerList[i].secondCard = Deck[ithCard];
+	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+		current = *it;
+		if (current.currentBet != 0) {
+			current.secondCard = Deck[ithCard];
 			ithCard++;
 		}
+		*it = current;
 	}
 	//Deal the Dealler their SECONDCARD
 	dealerSecond = Deck[ithCard];
@@ -126,9 +217,9 @@ bool Table::TimeToShuffle() {
 }
 
 void Table::AddPlayers() {
-	cout << "Enter how many people you would like to play with you\n";
+	cout << "Enter how many people you would like to play with you (MAX 7)\n";
 	cin >> numbOfPlayers;
-
+	if (numbOfPlayers > 7) exit(2);
 	for (int i = 0; i < numbOfPlayers; i++) {
 		Player newPlayer;
 		cout << "Enter the name of the player entering\n";
