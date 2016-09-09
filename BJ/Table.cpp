@@ -46,15 +46,37 @@ void Table::PlayHand() {
 		return;
 	case 3:
 		//AddMoney()
+		PlayHand();
 		break;
 	case 4:
 		AddNewPlayers();
-	default:
 		PlayHand();
+		break;
+	default:
+		//PrintStats
+		//PlayHand();
 		break;
 	}
 }
 void Table::AddNewPlayers() {
+	cout << "Enter the number of new players (MAX 7 at the table)" << endl;
+	cout << "There are " << PlayerList.size() << " people at the table now" << endl;
+	int NumberOfNewPlayers;
+	cin  >> NumberOfNewPlayers;
+	if (NumberOfNewPlayers + PlayerList.size() > 7) {
+		cout << "Too many people... Try again after the next hand" << endl;
+		return;
+	}
+	else{
+		for (int i = 0; i < NumberOfNewPlayers; i++) {
+			Player newPlayer;
+			cout << "Enter the name of the player entering\n";
+			cin >> newPlayer.name;
+			cout << "Enter " << newPlayer.name << "'s bankroll'\n";
+			cin >> newPlayer.bankRoll;
+			PlayerList.push_back(newPlayer);
+		}
+	}
 
 }
 
@@ -135,34 +157,6 @@ void Table::TakeBets() {
 	cout << "All bets are in\n";
 }
 
-
-/*for (unsigned i = 0; i < PlayerList.size(); i++) {
-		cout << PlayerList[i].name << " bets ";
-		cin >> PlayerList[i].currentBet;
-		while (PlayerList[i].bankRoll < PlayerList[i].currentBet || PlayerList[i].currentBet < 0 || PlayerList[i].currentBet < minBet) {
-			if (PlayerList[i].currentBet < 0) {
-				cout << "Thats funny" << endl;
-			}
-			else if (PlayerList[i].currentBet < minBet) {
-				cout << "Table mininum is " << minBet << endl;
-			}
-			else {
-				cout << "You do not have enough money" << endl;
-				cout << "You have $" << PlayerList[i].bankRoll << " left ";
-			}
-			cout << "would you still like to play?" << endl;
-			cin >> answer;
-			if(answer == "yes"){
-cout << "Place your bet" << endl;
-cin >> PlayerList[i].currentBet;
-if (PlayerList[i].bankRoll < PlayerList[i].currentBet) {
-	cout << "Sober Up" << endl;
-	cout << "If you are done playing bet $0" << endl;
-}
-		}
-		PlayerList[i].bankRoll -= PlayerList[i].currentBet;
-	}
-	cout << "All bets are in\n"; */
 
 void Table::Deal() {
 	//Deal PLAYERS their FIRSTCARD
