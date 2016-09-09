@@ -29,6 +29,7 @@ public:
 	~Table();
 	void PlayHand();
 	void Deal();
+	void TakeBets();
 	void PrintHand();
 	void SimluateHands(int numbOfHands);
 	bool TimeToShuffle();

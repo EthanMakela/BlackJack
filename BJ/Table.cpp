@@ -23,49 +23,84 @@ Table::Table() {
 
 void Table::PlayHand() {
 	handNumber++;
+	string answer;
 	system("cls");
-	cout << "Place Your Bets\n";
-	for (unsigned i = 0; i < PlayerList.size(); i++) {
-		cout << PlayerList[i].name << " bets ";
-		cin >> PlayerList[i].currentBet;
-	}
-	cout << "All bets are in\n";
+
+
+	TakeBets();
 	Deal();
-	PrintHand();
+	
 	if (TimeToShuffle()) {
 		cout << "Time To Shuffle" << endl;
 		KnuthShuffle();
 		ithCard = 0;
 	}
 	cout << "Play Again? Type 'NO' to quit" << endl;
-	string answer;
+	
 	cin >> answer;
 	if (answer == "NO" || answer == "no") return;
 	else PlayHand();
-
+	
 	
 
 
 
 }
 
+void Table::TakeBets() {
+	cout << "Place Your Bets\n";
+	//vector<int>::iterator* it = PlayerList.begin();
+	for (unsigned i = 0; i < PlayerList.size(); i++) {
+		cout << PlayerList[i].name << " bets ";
+		cin >> PlayerList[i].currentBet;
+		while (PlayerList[i].bankRoll < PlayerList[i].currentBet || PlayerList[i].currentBet < 0 || PlayerList[i].currentBet < minBet) {
+			if (PlayerList[i].currentBet < 0) {
+				cout << "Thats funny" << endl;
+			}
+			else if (PlayerList[i].currentBet < minBet) {
+				cout << "Table mininum is " << minBet << endl;
+			}
+			else {
+				cout << "You do not have enough money" << endl;
+				cout << "You have $" << PlayerList[i].bankRoll << " left ";
+			}
+			/*cout << "would you still like to play?" << endl;
+			cin >> answer;
+			if(answer == "yes"){*/
+			cout << "Place your bet" << endl;
+			cin >> PlayerList[i].currentBet;
+			if (PlayerList[i].bankRoll < PlayerList[i].currentBet) {
+				cout << "Sober Up" << endl;
+				cout << "If you are done playing bet $0" << endl;
+			}
+		}
+		PlayerList[i].bankRoll -= PlayerList[i].currentBet;
+	}
+	cout << "All bets are in\n";
+}
+
 void Table::Deal() {
 	//Deal PLAYERS their FIRSTCARD
 	for (int i = 0; i < PlayerList.size(); i++) {
-		PlayerList[i].firstCard = Deck[ithCard];
-		ithCard++;
+		if (PlayerList[i].currentBet != 0) {
+			PlayerList[i].firstCard = Deck[ithCard];
+			ithCard++;
+		}
 	}
 	//Deal the DEALLER their FIRSTCARD
 	dealerFirst = Deck[ithCard];
 	ithCard++;
 	//Deal the PLAYERS their SECONDCARD
 	for (int i = 0; i < PlayerList.size(); i++) {
-		PlayerList[i].secondCard = Deck[ithCard];
-		ithCard++;
+		if (PlayerList[i].currentBet != 0) {
+			PlayerList[i].secondCard = Deck[ithCard];
+			ithCard++;
+		}
 	}
 	//Deal the Dealler their SECONDCARD
 	dealerSecond = Deck[ithCard];
 	ithCard++;
+	PrintHand();
 }
 
 void Table::PrintHand() {
@@ -77,8 +112,8 @@ void Table::PrintHand() {
 		cout << PlayerList[i].secondCard.suit << endl;
 	}
 	cout << "Dealer: ";
-	cout << dealerFirst.rank << " of ";
-	cout << dealerFirst.suit << " , ";
+	//cout << dealerFirst.rank << " of ";
+	//cout << dealerFirst.suit << " , ";
 	cout << dealerSecond.rank << " of ";
 	cout << dealerSecond.suit << endl;
 }
