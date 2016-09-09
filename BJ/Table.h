@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <ctype.h>
 
 #include "Card.h"
 #include "Player.h"
@@ -42,6 +43,7 @@ public:
 	//Setup
 	void AddPlayers();
 	void AddNewPlayers();
+	void RemovePlayer();
 	void CreateDeck();
 	//Tests
 	void PrintDeck();

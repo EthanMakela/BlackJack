@@ -52,12 +52,39 @@ void Table::PlayHand() {
 		AddNewPlayers();
 		PlayHand();
 		break;
+	case 5:
+		if (PlayerList.size() == 1) return;
+		RemovePlayer();
+		PlayHand();
+		break;
 	default:
 		//PrintStats
 		//PlayHand();
 		break;
 	}
 }
+
+void Table::RemovePlayer() {
+	cout << "Enter the name of the player that would like to leave" << endl;
+	cout << "List of current players:" << endl;
+	for (int i = 0; i < PlayerList.size(); i++) {
+		cout << PlayerList[i].name << endl;
+	}
+	string leavingPlayer;
+	cin >> leavingPlayer;
+	Player temp;
+	for (vector<Player>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++) {
+		temp = *it;
+		if (leavingPlayer == temp.name) {
+			it--;
+			PlayerList.erase(it + 1);
+			return;
+		}
+	}
+	cout << "There is no player by that name at this table... Try again next hand" << endl;
+}
+
+
 void Table::AddNewPlayers() {
 	cout << "Enter the number of new players (MAX 7 at the table)" << endl;
 	cout << "There are " << PlayerList.size() << " people at the table now" << endl;
