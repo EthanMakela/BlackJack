@@ -307,7 +307,7 @@ void Table::AddPlayers() {
 	}
 }
 
-void Table::CreateDeck() {
+void Table::CreateDeck() { 
 
 	string cardNames[13] = { "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
 	string cardSuit[4] = { "Spades", "Hearts", "Diamonds", "Clubs" };
