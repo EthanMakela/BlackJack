@@ -19,10 +19,13 @@ Player::~Player()
 }
 
 void Player::PrintCards() {
+	int value = 0;
 	for (int i = 0; i < numbOfCards; i++) {
 		cout << Cards[i].rank << " of " << Cards[i].suit << " , ";
+		value += Cards[i].value;
 	}
 	cout << '\n';
+	cout << "You Have: " << value << endl;
 
 
 }

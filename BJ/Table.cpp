@@ -286,6 +286,8 @@ void Table::Deal() {
 	int answer;
 	bool stand = false;
 	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+		
+		
 		current = *it;
 		curValue = current.firstCard.value + current.secondCard.value;
 		if (curValue == 21) {
@@ -298,24 +300,21 @@ void Table::Deal() {
 			current.numbOfCards++;
 			cout << current.name << " 1) Hit	    	2) Stand		3) Split		4) Double" << endl;
 			cin >> answer;
-			cout << current.name << "'s Hand: ";
-			current.PrintCards();
-			cout << "Value: " << curValue << endl;
+			
 			switch (answer) {
 			case 1:
-				cout << "HERE: " << Deck[ithCard].rank << " , " << Deck[ithCard].suit << endl;
-				current.Cards[current.numbOfCards + 1] = Deck[ithCard];
-				cout << "HERE2: " << current.Cards[current.numbOfCards + 1].rank << " , " << current.Cards[current.numbOfCards + 1].suit << endl;
+				current.Cards[current.numbOfCards-1] = Deck[ithCard];
 				curValue += Deck[ithCard].value;
 				ithCard++;
 				break;
 
 
 			}
-			cout << current.name << "'s Hand After: ";
+			cout << current.name << "'s Hand: ";
 			current.PrintCards();
-			cout << "Value: " << curValue << endl;
 		}
+		current.numbOfCards = 0;
+		*it = current;
 	}//End For
 }
 
