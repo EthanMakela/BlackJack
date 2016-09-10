@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 #include <ctype.h>
+#include <time.h>
+
 
 #include "Card.h"
 #include "Player.h"
@@ -51,6 +53,7 @@ public:
 	void RemovePlayer();
 	void CreateDeck();
 	void PlayerSwap(Player& a, Player& b);
+	
 	//Tests
 	void PrintDeck();
 	void PrintBurnPile();

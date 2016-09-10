@@ -1,5 +1,5 @@
 
-#include <time.h>
+
 
 #include "stdafx.h"
 #include "Table.h"
@@ -17,7 +17,8 @@ Table::Table() {
 	ithCard = 0;
 	cout << "What is the minimum bet on the table\n";
 	cin >> minBet;
-	srand(0);
+	
+	srand((unsigned)time(0));
 
 	
 }
@@ -295,20 +296,25 @@ void Table::Deal() {
 		while (curValue <= 21 && stand == false) {
 			stand = false;
 			current.numbOfCards++;
-			cout << current.name << "1) Hit	    	2) Stand		3) Split		4) Double" << endl;
+			cout << current.name << " 1) Hit	    	2) Stand		3) Split		4) Double" << endl;
 			cin >> answer;
 			cout << current.name << "'s Hand: ";
 			current.PrintCards();
+			cout << "Value: " << curValue << endl;
 			switch (answer) {
 			case 1:
+				cout << "HERE: " << Deck[ithCard].rank << " , " << Deck[ithCard].suit << endl;
 				current.Cards[current.numbOfCards + 1] = Deck[ithCard];
+				cout << "HERE2: " << current.Cards[current.numbOfCards + 1].rank << " , " << current.Cards[current.numbOfCards + 1].suit << endl;
 				curValue += Deck[ithCard].value;
+				ithCard++;
 				break;
 
 
 			}
-			cout << current.name << "'s Hand: ";
+			cout << current.name << "'s Hand After: ";
 			current.PrintCards();
+			cout << "Value: " << curValue << endl;
 		}
 	}//End For
 }
@@ -438,5 +444,7 @@ void Table::PlayerSwap(Player& a, Player& b){
 	a = b;
 	b = c;
 }
+
+
 
 

@@ -23,5 +23,11 @@ void Player::PrintCards() {
 		cout << Cards[i].rank << " of " << Cards[i].suit << " , ";
 	}
 	cout << '\n';
+
+
 }
 
+void Player::NewHand() {
+	numbOfCards = 0;
+//	Cards[]
+}

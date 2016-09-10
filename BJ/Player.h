@@ -20,6 +20,7 @@ public:
 	Player();
 	~Player();
 	void PrintCards();
+	void NewHand();
 	
 	
 };
