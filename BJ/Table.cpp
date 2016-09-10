@@ -13,6 +13,7 @@ Table::Table() {
 	vector<Player> PlayerList;
 	vector<Card> Deck;
 	handNumber = 0;
+	numbOfDealerCards = 0;
 	ithCard = 0;
 	cout << "What is the minimum bet on the table\n";
 	cin >> minBet;
@@ -29,6 +30,7 @@ void Table::PlayHand() {
 	
 	TakeBets();
 	DealFirstTwo();
+	Deal();
 	
 	if (TimeToShuffle()) {
 		cout << "Time To Shuffle" << endl;
@@ -245,25 +247,33 @@ void Table::DealFirstTwo() {
 	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		current = *it;
 		if (current.currentBet != 0) {
-			current.firstCard = Deck[ithCard];
+			current.Cards[0] = Deck[ithCard];
+			current.firstCard = current.Cards[0];
+			current.numbOfCards++;
 			ithCard++;
 		}
 		*it = current;
 	}
 	//Deal the DEALLER their FIRSTCARD
-	dealerFirst = Deck[ithCard];
+	dealersCards[0] = Deck[ithCard];
+	dealerFirst = dealersCards[0];
+	numbOfDealerCards++;
 	ithCard++;
 	//Deal the PLAYERS their SECONDCARD
 	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		current = *it;
 		if (current.currentBet != 0) {
-			current.secondCard = Deck[ithCard];
+			current.Cards[1] = Deck[ithCard];
+			current.secondCard = current.Cards[1];
+			current.numbOfCards++;
 			ithCard++;
 		}
 		*it = current;
 	}
 	//Deal the Dealler their SECONDCARD
-	dealerSecond = Deck[ithCard];
+	dealersCards[1] = Deck[ithCard];
+	dealerSecond = dealersCards[1];
+	numbOfDealerCards++;
 	ithCard++;
 	PrintHand();
 }
@@ -273,6 +283,7 @@ void Table::Deal() {
 	vector<Player>::iterator it;
 	int curValue = 0;
 	int answer;
+	bool stand = false;
 	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		current = *it;
 		curValue = current.firstCard.value + current.secondCard.value;
@@ -281,13 +292,23 @@ void Table::Deal() {
 			current.bankRoll = current.currentBet * 1.5;
 			continue;
 		}
-		cout << current.name << "1) Hit	    	2) Stand		3) Split		4) Double" << endl;
-		cin >> answer;
-		switch (answer) {
-			case 1: 
-				current.extraCards.push_back(Deck[ithCard]);
-				current.total += Deck[ithCard].value;
+		while (curValue <= 21 && stand == false) {
+			stand = false;
+			current.numbOfCards++;
+			cout << current.name << "1) Hit	    	2) Stand		3) Split		4) Double" << endl;
+			cin >> answer;
+			cout << current.name << "'s Hand: ";
+			current.PrintCards();
+			switch (answer) {
+			case 1:
+				current.Cards[current.numbOfCards + 1] = Deck[ithCard];
+				curValue += Deck[ithCard].value;
+				break;
 
+
+			}
+			cout << current.name << "'s Hand: ";
+			current.PrintCards();
 		}
 	}//End For
 }

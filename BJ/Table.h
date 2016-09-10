@@ -21,6 +21,8 @@ public:
 
 	Card dealerFirst;
 	Card dealerSecond;
+	Card dealersCards[12];
+	int numbOfDealerCards;
 
 
 	vector<Card> Deck;
