@@ -12,6 +12,9 @@ Player::Player() {
 	name = "JohnDoe";
 	moneyWithdrawn = 0;
 	numbOfCards = 0;
+	isDoubling = false;
+	hasAce = false;
+	isStanding = false;
 };
 
 Player::~Player()
@@ -20,17 +23,26 @@ Player::~Player()
 
 void Player::PrintCards() {
 	int value = 0;
+	cout << name << "'s Hand: ";
 	for (int i = 0; i < numbOfCards; i++) {
-		cout << Cards[i].rank << " of " << Cards[i].suit << " , ";
-		value += Cards[i].value;
+		cout << " " << Cards[i].rank << " of " << Cards[i].suit << " , ";
+		
 	}
 	cout << '\n';
-	cout << "You Have: " << value << endl;
+	if (hasAce) {
+		cout << "Total: " << total << " or " << total - 10 << endl;
 
+	}
+	else {
+		cout << "Total: " << total << endl;
+	}
 
 }
 
 void Player::NewHand() {
-	numbOfCards = 0;
-//	Cards[]
+	numbOfCards = 2;
+	total = 0;
+	isDoubling = false;
+	hasAce = false;
+	isStanding = false;
 }

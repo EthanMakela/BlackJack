@@ -5,6 +5,8 @@
 #include "Table.h"
 
 
+
+
 Table::Table() {
 	numbOfPlayers = 0;
 	numbOfDecks = 0;
@@ -284,38 +286,69 @@ void Table::Deal() {
 	vector<Player>::iterator it;
 	int curValue = 0;
 	int answer;
-	bool stand = false;
+	
+	
 	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
-		
-		
+
+
 		current = *it;
+		cout << current.name << " your up  ===================" << endl;
+		current.NewHand();
 		curValue = current.firstCard.value + current.secondCard.value;
 		if (curValue == 21) {
 			cout << "BLACKJACK" << endl;
-			current.bankRoll = current.currentBet * 1.5;
+			current.bankRoll = current.currentBet * 1.5;  //pays 3 to 2 for a blackjack
 			continue;
 		}
-		while (curValue <= 21 && stand == false) {
-			stand = false;
-			current.numbOfCards++;
+		while (curValue <= 21 && current.isStanding == false && current.isDoubling == false) {
+
+
 			cout << current.name << " 1) Hit	    	2) Stand		3) Split		4) Double" << endl;
 			cin >> answer;
-			
+
 			switch (answer) {
-			case 1:
-				current.Cards[current.numbOfCards-1] = Deck[ithCard];
+			case 1: //HIT
+				current.Cards[current.numbOfCards] = Deck[ithCard];
 				curValue += Deck[ithCard].value;
+				current.total = curValue;
 				ithCard++;
+				current.numbOfCards++;
+				current.PrintCards();
+				break;
+			case 2: //STAND
+				current.isStanding = true;
+				break;
+			case 3:
+				//TO come
+			case 4: //DOUBLE DOWN
+				curValue += Deck[ithCard].value;
+				current.Cards[current.numbOfCards] = Deck[ithCard];
+				current.total += curValue;
+				ithCard++;
+				current.numbOfCards++;
+				current.PrintCards();
+				if (current.bankRoll > 2 * current.currentBet) {
+					current.isDoubling = true;
+					current.bankRoll -= current.currentBet;  //take out the doubled bet from bankroll
+					current.currentBet = current.currentBet * 2; //and double the bet
+					
+				}
 				break;
 
-
+			default:
+				cout << "Invalid option.. Standing by default" << endl;
+				current.isStanding = true;
+				break;
 			}
-			cout << current.name << "'s Hand: ";
-			current.PrintCards();
+
+		
 		}
-		current.numbOfCards = 0;
+	
+		
+		
 		*it = current;
 	}//End For
+
 }
 
 void Table::PrintHand() {

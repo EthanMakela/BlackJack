@@ -16,6 +16,9 @@ public:
 	int bankRoll;
 	int currentBet;
 	int moneyWithdrawn;
+	bool isDoubling;
+	bool hasAce;
+	bool isStanding;
 	string name;
 	Player();
 	~Player();
