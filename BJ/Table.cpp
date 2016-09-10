@@ -28,7 +28,7 @@ void Table::PlayHand() {
 
 	
 	TakeBets();
-	Deal();
+	DealFirstTwo();
 	
 	if (TimeToShuffle()) {
 		cout << "Time To Shuffle" << endl;
@@ -238,7 +238,7 @@ void Table::TakeBets() {
 }
 
 
-void Table::Deal() {
+void Table::DealFirstTwo() {
 	//Deal PLAYERS their FIRSTCARD
 	Player current;
 	vector<Player>::iterator it;
@@ -266,6 +266,30 @@ void Table::Deal() {
 	dealerSecond = Deck[ithCard];
 	ithCard++;
 	PrintHand();
+}
+
+void Table::Deal() {
+	Player current;
+	vector<Player>::iterator it;
+	int curValue = 0;
+	int answer;
+	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+		current = *it;
+		curValue = current.firstCard.value + current.secondCard.value;
+		if (curValue == 21) {
+			cout << "BLACKJACK" << endl;
+			current.bankRoll = current.currentBet * 1.5;
+			continue;
+		}
+		cout << current.name << "1) Hit	    	2) Stand		3) Split		4) Double" << endl;
+		cin >> answer;
+		switch (answer) {
+			case 1: 
+				current.extraCards.push_back(Deck[ithCard]);
+				current.total += Deck[ithCard].value;
+
+		}
+	}//End For
 }
 
 void Table::PrintHand() {

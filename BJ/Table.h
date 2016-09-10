@@ -29,7 +29,9 @@ public:
 	Table();
 	~Table();
 	void PlayHand();
+	void DealFirstTwo();
 	void Deal();
+	
 	void TakeBets();
 	void PrintHand();
 	void SimluateHands(int numbOfHands);
