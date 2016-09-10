@@ -45,7 +45,7 @@ void Table::PlayHand() {
 		//PrintTableStats
 		return;
 	case 3:
-		//AddMoney()
+		AddMoney();
 		PlayHand();
 		break;
 	case 4:
@@ -63,6 +63,30 @@ void Table::PlayHand() {
 		break;
 	}
 }
+void Table::AddMoney() {
+	cout << "Enter the name of the player who would like to buy in" << endl;
+	cout << "List of current players:" << endl;
+	for (int i = 0; i < PlayerList.size(); i++) {
+		cout << PlayerList[i].name << endl;
+	}
+	string playerName;
+	cin >> playerName;
+	Player temp;
+	for (vector<Player>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++) {
+		temp = *it;
+		if (playerName == temp.name) {
+			int amount;
+			cout << "Enter the amount of money you would like to add" << endl;
+			cin >> amount;
+			temp.bankRoll += amount;
+			temp.moneyWithdrawn += amount;
+			*it = temp;
+			cout << temp.name << "'s new bankroll: " << temp.bankRoll << endl;
+		}
+	}
+	cout << "There is no player by that name at this table... Try again next hand" << endl;
+}
+
 
 void Table::RemovePlayer() {
 	cout << "Enter the name of the player that would like to leave" << endl;
@@ -76,8 +100,14 @@ void Table::RemovePlayer() {
 	for (vector<Player>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		temp = *it;
 		if (leavingPlayer == temp.name) {
-			it--;
-			PlayerList.erase(it + 1);
+			if (it == PlayerList.begin()) {
+				PlayerSwap(PlayerList[0], PlayerList[1]);
+				PlayerList.erase(it);
+			}
+			else {
+				it--;
+				PlayerList.erase(it + 1);
+			}
 			return;
 		}
 	}
@@ -112,7 +142,13 @@ void Table::TakeBets() {
 	vector<Player>::iterator it; 
 	Player current;
 	bool leavingPlayer = false;
+	bool firstPlayerLeaving = false;
+
 	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+		if (firstPlayerLeaving == true) {
+			it = PlayerList.begin();
+			firstPlayerLeaving = false;
+		}
 		current = *it;
 		cout << current.name << " bets ";
 		cin >> current.currentBet;
@@ -146,7 +182,7 @@ void Table::TakeBets() {
 					int addedMoney;
 					cin >> addedMoney;
 					current.bankRoll += addedMoney;
-					//current.moneyWithdrawn += addedMoney;
+					current.moneyWithdrawn += addedMoney;
 					break;
 				default:
 					cout << "You can always sit out a hand by betting $0" << endl;
@@ -170,15 +206,27 @@ void Table::TakeBets() {
 				exit(1);
 
 			else {
-				it--;
-				PlayerList.erase(it + 1);
+				if (it == PlayerList.begin()) {
+					firstPlayerLeaving = true;
+					cout << PlayerList[0].name << " , " << PlayerList[1].name << endl;
+					PlayerSwap(PlayerList[0], PlayerList[1]);
+					cout << PlayerList[0].name << " , " << PlayerList[1].name << endl;
+
+					PlayerList.erase(it + 1);
+					
+					
+				}
+				else {
+					it--;
+					PlayerList.erase(it + 1);
+				}
 			}
 		}
 
 		else {
 			*it = current;
 		}
-	
+		
 	}
 	
 	cout << "All bets are in\n";
@@ -246,7 +294,10 @@ void Table::AddPlayers() {
 		cout << "Enter the name of the player entering\n";
 		cin >> newPlayer.name;
 		cout << "Enter " << newPlayer.name << "'s bankroll'\n";
-		cin >> newPlayer.bankRoll;
+		int bankRoll;
+		cin >> bankRoll;
+		newPlayer.bankRoll = bankRoll;
+		newPlayer.moneyWithdrawn = bankRoll;
 		PlayerList.push_back(newPlayer);
 	}
 }
@@ -330,3 +381,10 @@ int Table::Random() {
 Table::~Table()
 {
 }
+void Table::PlayerSwap(Player& a, Player& b){
+	Player c = a;
+	a = b;
+	b = c;
+}
+
+

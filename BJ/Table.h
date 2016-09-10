@@ -43,8 +43,10 @@ public:
 	//Setup
 	void AddPlayers();
 	void AddNewPlayers();
+	void AddMoney();
 	void RemovePlayer();
 	void CreateDeck();
+	void PlayerSwap(Player& a, Player& b);
 	//Tests
 	void PrintDeck();
 	void PrintBurnPile();

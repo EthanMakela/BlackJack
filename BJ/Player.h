@@ -11,8 +11,10 @@ public:
 	int total;
 	int bankRoll;
 	int currentBet;
+	int moneyWithdrawn;
 	string name;
 	Player();
 	~Player();
+	
 	
 };

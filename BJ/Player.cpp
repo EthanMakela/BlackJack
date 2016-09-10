@@ -10,6 +10,7 @@ Player::Player() {
 	bankRoll = 0;
 	currentBet = 0;
 	name = "JohnDoe";
+	moneyWithdrawn = 0;
 };
 
 Player::~Player()
