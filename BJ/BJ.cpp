@@ -21,7 +21,6 @@ int main()
 	//Add players to the table
 	table.AddPlayers();
 	//Shuffle
-	//table.Shuffle();
 	table.KnuthShuffle();
 	//Deal
 	table.PlayHand();

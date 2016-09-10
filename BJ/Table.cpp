@@ -17,6 +17,7 @@ Table::Table() {
 	cout << "What is the minimum bet on the table\n";
 	cin >> minBet;
 	srand(0);
+
 	
 }
 
@@ -25,7 +26,7 @@ void Table::PlayHand() {
 	int answer;
 	system("cls");
 
-
+	
 	TakeBets();
 	Deal();
 	
@@ -63,6 +64,8 @@ void Table::PlayHand() {
 		break;
 	}
 }
+
+
 void Table::AddMoney() {
 	cout << "Enter the name of the player who would like to buy in" << endl;
 	cout << "List of current players:" << endl;
@@ -100,17 +103,27 @@ void Table::RemovePlayer() {
 	for (vector<Player>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		temp = *it;
 		if (leavingPlayer == temp.name) {
-			if (it == PlayerList.begin()) {
-				PlayerSwap(PlayerList[0], PlayerList[1]);
-				PlayerList.erase(it);
+
+			if (PlayerList.size() == 1){
+				//PrintFullStats
+				exit(1);
 			}
 			else {
-				it--;
-				PlayerList.erase(it + 1);
+				if (it == PlayerList.begin()) {
+					PlayerSwap(PlayerList[0], PlayerList[1]);
+					PlayerList.erase(it + 1);
+					
+				}
+				else {
+					it--;
+					PlayerList.erase(it + 1);
+				}
 			}
-			return;
+
 		}
+		return;
 	}
+	
 	cout << "There is no player by that name at this table... Try again next hand" << endl;
 }
 
@@ -153,11 +166,10 @@ void Table::TakeBets() {
 		cout << current.name << " bets ";
 		cin >> current.currentBet;
 		if (current.bankRoll < current.currentBet || current.currentBet < 0 || current.currentBet < minBet) {
-			if (current.currentBet < 0) {
+			if (current.currentBet < 0) {  
 				cout << "Thats funny get off the table" << endl;
 				//PrintPlayerStats
 				leavingPlayer = true;
-
 			}
 			else if (current.currentBet < minBet) {
 				cout << "Table mininum is " << minBet << endl;
@@ -207,14 +219,10 @@ void Table::TakeBets() {
 
 			else {
 				if (it == PlayerList.begin()) {
-					firstPlayerLeaving = true;
-					cout << PlayerList[0].name << " , " << PlayerList[1].name << endl;
+					firstPlayerLeaving = true;					
 					PlayerSwap(PlayerList[0], PlayerList[1]);
-					cout << PlayerList[0].name << " , " << PlayerList[1].name << endl;
-
-					PlayerList.erase(it + 1);
-					
-					
+					PlayerList.erase(it + 1);	
+					//Error when first person leaves game
 				}
 				else {
 					it--;
@@ -222,13 +230,10 @@ void Table::TakeBets() {
 				}
 			}
 		}
-
 		else {
 			*it = current;
 		}
-		
 	}
-	
 	cout << "All bets are in\n";
 }
 
@@ -337,7 +342,7 @@ void Table::PrintBurnPile() {
 	cout << "PileSize: " << ithCard << "\n\n";
 }
 
-
+//Old Shuffling method...More like real shuffling less efficient
 /*void Table::Shuffle(){
 vector< Card > firstHalf;
 vector< Card > secondHalf;
@@ -381,6 +386,7 @@ int Table::Random() {
 Table::~Table()
 {
 }
+
 void Table::PlayerSwap(Player& a, Player& b){
 	Player c = a;
 	a = b;
