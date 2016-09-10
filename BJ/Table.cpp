@@ -309,14 +309,15 @@ void Table::AddPlayers() {
 
 void Table::CreateDeck() {
 
-	string cardNames[13] = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
+	string cardNames[13] = { "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
 	string cardSuit[4] = { "Spades", "Hearts", "Diamonds", "Clubs" };
+	
 	cout << "How many decks?\n";
 	cin >> numbOfDecks;
 	for (int z = 0; z < numbOfDecks; z++) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 13; j++) {
-				Deck.push_back(Card(cardNames[j], cardSuit[i]));
+				Deck.push_back(Card(cardNames[j], cardSuit[i], j));
 			}
 		}
 	}
