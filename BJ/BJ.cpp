@@ -14,20 +14,24 @@
 int main()
 {
 	//Create the table
-	Table table;
+	//Dealer* Jim = new Dealer;
+	Table* table = new Table;
+
 	
 	//Set up the Deck
-	table.CreateDeck();
+	table->CreateDeck();
 	//Add players to the table
-	table.AddPlayers();
+	table->AddPlayers();
 	//Shuffle
-	table.KnuthShuffle();
+	table->KnuthShuffle();
 	
 	//Deal
-	table.PlayHand();
+	table->PlayHand();
 
-	table.PrintDeck();
-	table.PrintBurnPile();
+	table->PrintDeck();
+	table->PrintBurnPile();
+	
+	delete table;
 
 	return 0;
 

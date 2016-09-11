@@ -8,37 +8,33 @@
 
 #include "Card.h"
 #include "Player.h"
+#include "Dealer.h"
 
 using namespace std;
 
 class Table {
 public:
-	int ithCard;
+	
 	int numbOfPlayers;
 	int numbOfDecks;
 	int deckSize;
-	int minBet;
 	int tableStakes;
 	int handNumber;
 
-	Card dealerFirst;
-	Card dealerSecond;
-	Card dealersCards[12];
-	int numbOfDealerCards;
+	
 
 
 	vector<Card> Deck;
-	vector<Player> PlayerList;
+	vector<Player> PlayerList; 
+	
+
+	
+	
 
 	Table();
 	~Table();
 	void PlayHand();
-	void DealFirstTwo();
-	void Deal();
-	
-	void TakeBets();
-	void PrintHand();
-	void SimluateHands(int numbOfHands);
+	//void SimluateHands(int numbOfHands);
 	
 	//Shuffling
 	void KnuthShuffle(void);
@@ -58,7 +54,8 @@ public:
 	void PrintDeck();
 	void PrintBurnPile();
 
-
+private:
+	//Dealer* Jim;
 
 };
 
