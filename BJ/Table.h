@@ -5,6 +5,7 @@
 
 using namespace std;
 
+ 
 class Table {
 public:
 	
@@ -42,7 +43,7 @@ public:
 
 
 private:
-	Dealer* Jim;
+	//Dealer* Jim;
 };
 
 

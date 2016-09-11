@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Table.h"
-
+Dealer* Jim = new Dealer();
 
 Table::Table() {
 	numbOfPlayers = 0;
@@ -14,7 +14,7 @@ Table::Table() {
 	vector<Card> Deck;
 	handNumber = 0;
 	srand((unsigned)time(0));
-	Jim = new Dealer();
+	//Jim = new Dealer();
 	
 }
 

@@ -10,6 +10,7 @@ Dealer::Dealer()
 	ithCard = 0;
 	cout << "What is the minimum bet on the table\n";
 	cin >> minBet;
+	hasAce = false;
 }
 
 Dealer::~Dealer()
@@ -156,27 +157,30 @@ void Dealer::Deal(vector<Player>& PlayerList, vector<Card>& Deck) {
 
 
 		current = *it;
-		cout << current.name << " your up  ===================" << endl;
+		
 		current.NewHand();
 		curValue = current.firstCard->value + current.secondCard->value;
-		for (unsigned i = 0; i < current.numbOfCards; i++) {
+		//current.total = curValue;
+		cout << current.name << " your up  ===================		Total: " << curValue << endl;
+		for (unsigned i = 0; i < 2; i++) {
 			if (current.Cards[i].isAce == true) {
 				current.hasAce = true;
 			}
 		}
 		if (curValue == 21) {
 			cout << "BLACKJACK" << endl;
-			current.bankRoll = current.currentBet * 1.5;  //pays 3 to 2 for a blackjack
+			current.bankRoll += ((current.currentBet * 1.5) + current.currentBet);  //pays 3 to 2 for a blackjack
+			current.wasPayed = true;
 			continue;
 		}
 		while (current.isStanding == false && current.isDoubling == false) {
-
-			if (curValue > 21 && current.hasAce) {
-				curValue -= 10;
-				current.hasAce = false;
-
+			if (current.Cards[current.numbOfCards-1].isAce) {
+				current.hasAce = true;
 			}
-			else if (curValue > 21) {
+			
+			if (curValue > 21) {
+				cout << current.name << " BUST" << endl;
+				current.hasBusted = true;
 				break;
 			}
 			cout << current.name << " 1) Hit	    	2) Stand		3) Split		4) Double" << endl;
@@ -221,10 +225,83 @@ void Dealer::Deal(vector<Player>& PlayerList, vector<Card>& Deck) {
 		}
 
 
+		if (curValue > 21 && current.hasAce) {
+			curValue -= 10;
+			current.hasAce = false;
 
+		}
 		*it = current;
 	}//End For
+	DealerAI(PlayerList, Deck);
 
+}
+
+void Dealer::DealerAI(vector<Player>& PlayerList, vector<Card>& Deck) {
+	vector<Player>::iterator it;
+	Player current;
+	//total = dealerFirst->value + dealerSecond->value;
+	NewHand();
+	for (unsigned i = 0; i < 2; i++) {
+		total += dealersCards[i].value;
+		if (dealersCards[i].isAce == true) {
+			hasAce = true;
+		}
+	}
+	if (total == 21) {
+		cout << "Dealer BLACKJACK" << endl;
+		for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+			current = *it;
+			if (current.wasPayed == false && current.total == 21) {
+					cout << current.name << ": Push" << endl;
+					current.bankRoll += current.currentBet;
+			}
+			*it = current;
+		}
+
+	}
+	while (total < 17) {
+		if (dealersCards[numbOfDealerCards-1].isAce == true) {
+			hasAce = true;
+		}
+		cout << "Dealer HITS" << endl;
+		dealersCards[numbOfDealerCards] = Deck[ithCard];
+		total += dealersCards[numbOfDealerCards].value;
+		ithCard++;
+		numbOfDealerCards++;
+		if (total > 21 && hasAce == true) {
+			total -= 10;
+		}
+		
+	}
+	PrintCards();
+	if (total > 21) {
+		cout << "Dealer Bust" << endl;
+		for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+			current = *it;
+			if (current.wasPayed == false && current.total <= 21) {
+				cout << current.name << ": Wins " << current.currentBet << endl;
+				current.bankRoll += current.currentBet * 2;
+			}
+			*it = current;
+		}
+	}
+	else {
+		for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
+			current = *it;
+			if (current.total > total && current.hasBusted == false && current.wasPayed == false) {
+				cout << current.name << ": Wins " << current.currentBet << endl;
+				current.bankRoll += current.currentBet * 2;
+			}
+			*it = current;
+		}
+	}
+
+	
+}
+
+void Dealer::NewHand() {
+	total = 0;
+	numbOfDealerCards = 2;
 }
 
 int Dealer::getIthCard() {
@@ -252,6 +329,19 @@ void Dealer::PrintHand(vector<Player>& PlayerList) {
 		cout << PlayerList[i].secondCard->rank << " of ";
 		cout << PlayerList[i].secondCard->suit << endl;*/
 
+
+void Dealer::PrintCards() {
+	int value = 0;
+	cout << "Dealers's Hand: ";
+	for (int i = 0; i < numbOfDealerCards; i++) {
+		cout << " " << dealersCards[i].rank << " of " << dealersCards[i].suit << " , ";
+
+	}
+	cout << '\n';
+	cout << "Total: " << total << endl;
+	
+
+}
 void Dealer::PlayerSwap(Player& a, Player& b) {
 	Player c = a;
 	a = b;

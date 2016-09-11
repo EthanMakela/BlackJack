@@ -15,6 +15,8 @@ public:
 	int numbOfDealerCards;
 	int ithCard;
 	int minBet;
+	int total;
+	bool hasAce;
 
 	
 	void DealFirstTwo(vector<Player>& PlayerList, vector<Card>& Deck);
@@ -23,6 +25,10 @@ public:
 	void TakeBets(vector<Player>& PlayerList, vector<Card>& Deck);
 	int getIthCard();
 	void PrintHand(vector<Player>& PlayerList);
+	void PrintCards();
+	void DealerAI(vector<Player>& PlayerList, vector<Card>& Deck);
+	void NewHand();
+
 	Dealer();
 	~Dealer();
 };

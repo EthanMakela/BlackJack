@@ -18,6 +18,8 @@ public:
 	bool isDoubling;
 	bool hasAce;
 	bool isStanding;
+	bool wasPayed;
+	bool hasBusted;
 	string name;
 	Player();
 	~Player();

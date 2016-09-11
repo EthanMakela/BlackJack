@@ -29,13 +29,9 @@ void Player::PrintCards() {
 		
 	}
 	cout << '\n';
-	if (hasAce) {
-		cout << "Total: " << total << " or " << total - 10 << endl;
 
-	}
-	else {
-		cout << "Total: " << total << endl;
-	}
+	cout << "Total: " << total << endl;
+	
 
 }
 
@@ -45,4 +41,6 @@ void Player::NewHand() {
 	isDoubling = false;
 	hasAce = false;
 	isStanding = false;
+	wasPayed = false;
+	hasBusted = false;
 }
