@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Table.h"
-Dealer* Jim = new Dealer();
+
 
 Table::Table() {
 	numbOfPlayers = 0;
@@ -19,8 +19,9 @@ Table::Table() {
 }
 
 Table::~Table() {
-	Jim->~Dealer();
-	delete Jim;
+	
+	//delete Jim;
+
 }
 
 

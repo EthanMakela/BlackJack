@@ -12,7 +12,6 @@ Dealer::Dealer()
 	cin >> minBet;
 }
 
-
 Dealer::~Dealer()
 {
 	delete dealerFirst;

@@ -55,8 +55,7 @@ public:
 	void PrintBurnPile();
 
 private:
-	//Dealer* Jim;
-
+	Dealer* Jim = new Dealer();
 };
 
 

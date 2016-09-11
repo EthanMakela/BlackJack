@@ -11,12 +11,15 @@
 #include "Table.h"
 
 
+
+
+
 int main()
 {
 	//Create the table
-	//Dealer* Jim = new Dealer;
-	Table* table = new Table;
-
+	
+	Table* table = new Table();
+	
 	
 	//Set up the Deck
 	table->CreateDeck();
