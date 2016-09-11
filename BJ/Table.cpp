@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Table.h"
-Dealer* Jim = new Dealer();
+
 
 Table::Table() {
 	numbOfPlayers = 0;
@@ -14,13 +14,11 @@ Table::Table() {
 	vector<Card> Deck;
 	handNumber = 0;
 	srand((unsigned)time(0));
-	//Jim = new Dealer();
+	
 	
 }
 
 Table::~Table() {
-	
-	//delete Jim;
 
 
 }
@@ -28,44 +26,44 @@ Table::~Table() {
 
 
 
-void Table::PlayHand() {
+void Table::PlayHand(Dealer& Jim) {
 	
 	handNumber++;
 	int answer;
 	system("cls");
 
 	
-	Jim->TakeBets(PlayerList, Deck);
-	Jim->DealFirstTwo(PlayerList, Deck);
-	Jim->Deal(PlayerList, Deck);
+	Jim.TakeBets(PlayerList, Deck);
+	Jim.DealFirstTwo(PlayerList, Deck);
+	Jim.Deal(PlayerList, Deck);
 	
-	if (TimeToShuffle()) {
+	if (TimeToShuffle(Jim)) {
 		cout << "Time To Shuffle" << endl;
 		KnuthShuffle();
-		Jim->ithCard = 0;
+		Jim.ithCard = 0;
 	}
 	cout << "Play Again? " << endl;
 	cout << "1) Yes		2) No	 3)	Hit the ATM		4)Add New Player	5)Remove Player" << endl;
 	cin >> answer;
 	switch (answer) {
 	case 1:
-		PlayHand();
+		PlayHand(Jim);
 		break;
 	case 2:
 		//PrintTableStats
 		return;
 	case 3:
 		AddMoney();
-		PlayHand();
+		PlayHand(Jim);
 		break;
 	case 4:
 		AddNewPlayers();
-		PlayHand();
+		PlayHand(Jim);
 		break;
 	case 5:
 		if (PlayerList.size() == 1) return;
-		RemovePlayer();
-		PlayHand();
+		RemovePlayer(Jim);
+		PlayHand(Jim);
 		break;
 	default:
 		//PrintStats
@@ -100,7 +98,7 @@ void Table::AddMoney() {
 }
 
 
-void Table::RemovePlayer() {
+void Table::RemovePlayer(Dealer& Jim) {
 	cout << "Enter the name of the player that would like to leave" << endl;
 	cout << "List of current players:" << endl;
 	for (int i = 0; i < PlayerList.size(); i++) {
@@ -119,7 +117,7 @@ void Table::RemovePlayer() {
 			}
 			else {
 				if (it == PlayerList.begin()) {
-					Jim->PlayerSwap(PlayerList[0], PlayerList[1]);
+					Jim.PlayerSwap(PlayerList[0], PlayerList[1]);
 					PlayerList.erase(it + 1);
 					
 				}
@@ -159,10 +157,10 @@ void Table::AddNewPlayers() {
 
 }
 
-bool Table::TimeToShuffle() {
+bool Table::TimeToShuffle(Dealer& Jim) {
 	int size = Deck.size();
 	int burnspot = size * .7;
-	if (size - Jim->ithCard < burnspot) return true;
+	if (size - Jim.ithCard < burnspot) return true;
 	return false;
 }
 
@@ -202,22 +200,22 @@ void Table::CreateDeck() {
 
 }
 
-void Table::PrintDeck() {
+void Table::PrintDeck(Dealer& Jim) {
 	cout << "Printing Deck:\n";
-	for (unsigned i = Jim->ithCard; i < Deck.size(); i++) {
+	for (unsigned i = Jim.ithCard; i < Deck.size(); i++) {
 		cout << ' ' << Deck[i].rank << " of " << Deck[i].suit;
 	} cout << '\n';
 
-	cout << "DeckSize: " << Deck.size() - Jim->ithCard << "\n\n";
+	cout << "DeckSize: " << Deck.size() - Jim.ithCard << "\n\n";
 }
 
-void Table::PrintBurnPile() {
+void Table::PrintBurnPile(Dealer& Jim) {
 	cout << "Printing BUrn Pile\n";
-	for (int i = 0; i < Jim->ithCard; i++) {
+	for (int i = 0; i < Jim.ithCard; i++) {
 		cout << ' ' << Deck[i].rank << " of " << Deck[i].suit;
 	} cout << '\n';
 
-	cout << "PileSize: " << Jim->ithCard << "\n\n";
+	cout << "PileSize: " << Jim.ithCard << "\n\n";
 }
 
 //Old Shuffling method...More like real shuffling less efficient

@@ -1,7 +1,10 @@
 #pragma once
+
+
+#include "Dealer.h"
 #include "Card.h"
 #include "Player.h"
-#include "Dealer.h"
+
 
 using namespace std;
 
@@ -14,32 +17,33 @@ public:
 	int deckSize;
 	int tableStakes;
 	int handNumber;
+	
 
 	vector<Card> Deck;
 	vector<Player> PlayerList; 
 	
 	Table();
 	~Table();
-	void PlayHand();
+	void PlayHand(Dealer& Jim);
 	//void SimluateHands(int numbOfHands);
 	
 	//Shuffling
 	void KnuthShuffle(void);
 	void Swap(Card& a, Card& b);
-	bool TimeToShuffle();
+	bool TimeToShuffle(Dealer& Jim);
 	//void Shuffle();
 	int Random();
 	//Setup
 	void AddPlayers();
 	void AddNewPlayers();
 	void AddMoney();
-	void RemovePlayer();
+	void RemovePlayer(Dealer& Jim);
 	void CreateDeck();
-	void PlayerSwap(Player& a, Player& b);
+	
 	
 	//Tests
-	void PrintDeck();
-	void PrintBurnPile();
+	void PrintDeck(Dealer& Jim);
+	void PrintBurnPile(Dealer& Jim);
 
 
 private:

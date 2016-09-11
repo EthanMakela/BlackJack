@@ -1,11 +1,9 @@
+
 #include "stdafx.h"
 #include "Dealer.h"
 
-
 Dealer::Dealer()
 {
-	dealerFirst = new Card();
-	dealerSecond = new Card();
 	numbOfDealerCards = 0;
 	ithCard = 0;
 	cout << "What is the minimum bet on the table\n";
@@ -15,8 +13,7 @@ Dealer::Dealer()
 
 Dealer::~Dealer()
 {
-	delete dealerFirst;
-	delete dealerSecond;
+	
 }
 
 
@@ -41,13 +38,13 @@ void Dealer::TakeBets(vector<Player>& PlayerList, vector<Card>& Deck) {
 				//PrintPlayerStats
 				leavingPlayer = true;
 			}
+			
 			else if (current.currentBet < minBet) {
 				cout << "Table mininum is " << minBet << endl;
 			}
 			else {
 				cout << "You do not have enough money" << endl;
 				cout << "You have $" << current.bankRoll << " left ";
-
 				cout << "Would you still like to play?" << endl;
 				cout << "1) Leave Table		2)Add Money		3)Keep Playing" << endl;
 
@@ -124,7 +121,7 @@ void Dealer::DealFirstTwo(vector<Player>& PlayerList, vector<Card>& Deck) {
 	}
 	//Deal the DEALLER their FIRSTCARD
 	dealersCards[0] = Deck[ithCard];
-	dealerFirst = &dealersCards[0];
+	//dealerFirst = &dealersCards[0];
 	numbOfDealerCards++;
 	ithCard++;
 	//Deal the PLAYERS their SECONDCARD
@@ -140,7 +137,7 @@ void Dealer::DealFirstTwo(vector<Player>& PlayerList, vector<Card>& Deck) {
 	}
 	//Deal the Dealler their SECONDCARD
 	dealersCards[1] = Deck[ithCard];
-	dealerSecond = &dealersCards[1];
+	//dealerSecond = &dealersCards[1];
 	numbOfDealerCards++;
 	ithCard++;
 	PrintHand(PlayerList);
@@ -319,8 +316,8 @@ void Dealer::PrintHand(vector<Player>& PlayerList) {
 	cout << "Dealer: ";
 	//cout << dealerFirst.rank << " of ";
 	//cout << dealerFirst.suit << " , ";
-	cout << dealerSecond->rank << " of ";
-	cout << dealerSecond->suit << endl;
+	cout << dealersCards[1].rank << " of ";
+	cout << dealersCards[1].suit << endl;
 }
 
 /*		cout << PlayerList[i].name << ": ";
