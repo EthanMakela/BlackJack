@@ -1,11 +1,4 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <iostream>
-#include <ctype.h>
-#include <time.h>
-
-
 #include "Card.h"
 #include "Player.h"
 #include "Dealer.h"
@@ -21,16 +14,9 @@ public:
 	int tableStakes;
 	int handNumber;
 
-	
-
-
 	vector<Card> Deck;
 	vector<Player> PlayerList; 
 	
-
-	
-	
-
 	Table();
 	~Table();
 	void PlayHand();
@@ -54,8 +40,9 @@ public:
 	void PrintDeck();
 	void PrintBurnPile();
 
+
 private:
-	Dealer* Jim = new Dealer();
+	Dealer* Jim;
 };
 
 

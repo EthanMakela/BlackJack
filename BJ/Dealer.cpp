@@ -159,14 +159,26 @@ void Dealer::Deal(vector<Player>& PlayerList, vector<Card>& Deck) {
 		cout << current.name << " your up  ===================" << endl;
 		current.NewHand();
 		curValue = current.firstCard->value + current.secondCard->value;
+		for (unsigned i = 0; i < current.numbOfCards; i++) {
+			if (current.Cards[i].isAce == true) {
+				current.hasAce = true;
+			}
+		}
 		if (curValue == 21) {
 			cout << "BLACKJACK" << endl;
 			current.bankRoll = current.currentBet * 1.5;  //pays 3 to 2 for a blackjack
 			continue;
 		}
-		while (curValue <= 21 && current.isStanding == false && current.isDoubling == false) {
+		while (current.isStanding == false && current.isDoubling == false) {
 
+			if (curValue > 21 && current.hasAce) {
+				curValue -= 10;
+				current.hasAce = false;
 
+			}
+			else if (curValue > 21) {
+				break;
+			}
 			cout << current.name << " 1) Hit	    	2) Stand		3) Split		4) Double" << endl;
 			cin >> answer;
 
@@ -222,10 +234,10 @@ int Dealer::getIthCard() {
 void Dealer::PrintHand(vector<Player>& PlayerList) {
 	for (int i = 0; i < PlayerList.size(); i++) {
 		cout << PlayerList[i].name << ": ";
-		cout << PlayerList[i].firstCard->rank << " of ";
-		cout << PlayerList[i].firstCard->suit << " , ";
-		cout << PlayerList[i].secondCard->rank << " of ";
-		cout << PlayerList[i].secondCard->suit << endl;
+		cout << PlayerList[i].Cards[0].rank << " of ";
+		cout << PlayerList[i].Cards[0].suit << " , ";
+		cout << PlayerList[i].Cards[1].rank << " of ";
+		cout << PlayerList[i].Cards[1].suit << endl;
 	}
 	cout << "Dealer: ";
 	//cout << dealerFirst.rank << " of ";
@@ -234,7 +246,11 @@ void Dealer::PrintHand(vector<Player>& PlayerList) {
 	cout << dealerSecond->suit << endl;
 }
 
-
+/*		cout << PlayerList[i].name << ": ";
+		cout << PlayerList[i].firstCard->rank << " of ";
+		cout << PlayerList[i].firstCard->suit << " , ";
+		cout << PlayerList[i].secondCard->rank << " of ";
+		cout << PlayerList[i].secondCard->suit << endl;*/
 
 void Dealer::PlayerSwap(Player& a, Player& b) {
 	Player c = a;

@@ -1,13 +1,13 @@
 // Ethan Makela
 // BlackJack Simulation/Game
-//?
 
 
-#include <time.h>
+
+
 
 #include "stdafx.h"
-#include "Card.h"
-#include "Player.h"
+
+
 #include "Table.h"
 
 
@@ -33,6 +33,7 @@ int main()
 
 	table->PrintDeck();
 	table->PrintBurnPile();
+	//table->EndGame();
 	
 	delete table;
 

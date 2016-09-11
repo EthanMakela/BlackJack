@@ -14,7 +14,7 @@ Table::Table() {
 	vector<Card> Deck;
 	handNumber = 0;
 	srand((unsigned)time(0));
-	
+	Jim = new Dealer();
 	
 }
 
@@ -22,7 +22,9 @@ Table::~Table() {
 	
 	//delete Jim;
 
+
 }
+
 
 
 
@@ -191,6 +193,7 @@ void Table::CreateDeck() {
 	for (int z = 0; z < numbOfDecks; z++) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 13; j++) {
+			
 				Deck.push_back(Card(cardNames[j], cardSuit[i], j));
 			}
 		}
@@ -201,7 +204,7 @@ void Table::CreateDeck() {
 
 void Table::PrintDeck() {
 	cout << "Printing Deck:\n";
-	for (int i = Jim->ithCard; i < Deck.size(); i++) {
+	for (unsigned i = Jim->ithCard; i < Deck.size(); i++) {
 		cout << ' ' << Deck[i].rank << " of " << Deck[i].suit;
 	} cout << '\n';
 
