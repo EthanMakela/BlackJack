@@ -113,7 +113,6 @@ void Dealer::DealFirstTwo(vector<Player>& PlayerList, vector<Card>& Deck) {
 		current = *it;
 		if (current.currentBet != 0) {
 			current.Cards[0] = Deck[ithCard];
-			current.firstCard = &current.Cards[0];
 			current.numbOfCards++;
 			ithCard++;
 		}
@@ -129,7 +128,6 @@ void Dealer::DealFirstTwo(vector<Player>& PlayerList, vector<Card>& Deck) {
 		current = *it;
 		if (current.currentBet != 0) {
 			current.Cards[1] = Deck[ithCard];
-			current.secondCard = &current.Cards[1];
 			current.numbOfCards++;
 			ithCard++;
 		}
@@ -156,7 +154,7 @@ void Dealer::Deal(vector<Player>& PlayerList, vector<Card>& Deck) {
 		current = *it;
 		
 		current.NewHand();
-		curValue = current.firstCard->value + current.secondCard->value;
+		curValue = current.Cards[0].value + current.Cards[1].value;
 		//current.total = curValue;
 		cout << current.name << " your up  ===================		Total: " << curValue << endl;
 		for (unsigned i = 0; i < 2; i++) {

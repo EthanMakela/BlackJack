@@ -7,8 +7,6 @@ using namespace std;
 
 class Player {
 public:
-	Card* firstCard;
-	Card* secondCard;
 	Card Cards[20];
 	int numbOfCards;
 	int total;
