@@ -19,8 +19,9 @@ Table::Table() {
 }
 
 Table::~Table() {
-
-
+	for (int i = 0; i < PlayerList.size(); i++) {
+		delete PlayerList[i];
+	}
 }
 
 
@@ -70,6 +71,7 @@ void Table::PlayHand(Dealer& Jim) {
 		//PlayHand();
 		break;
 	}
+	
 	
 }
 
