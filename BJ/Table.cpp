@@ -182,7 +182,7 @@ void Table::AddPlayers() {
 		newPlayer->moneyWithdrawn = bankRoll;
 		PlayerList.push_back(newPlayer);
 	}
-}
+} 
 
 void Table::CreateDeck() { 
 
