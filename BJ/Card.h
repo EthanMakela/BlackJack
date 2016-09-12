@@ -18,4 +18,5 @@ public:
 	~Card();
 	Card();
 	Card(string r, string s, int j);
+	Card& Card::operator=(const Card &rhs);
 };

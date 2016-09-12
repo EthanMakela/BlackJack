@@ -70,6 +70,7 @@ void Table::PlayHand(Dealer& Jim) {
 		//PlayHand();
 		break;
 	}
+	
 }
 
 

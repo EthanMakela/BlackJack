@@ -13,10 +13,17 @@ Player::Player() {
 	isDoubling = false;
 	hasAce = false;
 	isStanding = false;
+	hasBusted = false;
+	wasPayed = false;
+	Cards = new Card[14];
+	
 };
 
 Player::~Player()
 {
+	
+	//delete [] Cards;
+	
 }
 
 void Player::PrintCards() {

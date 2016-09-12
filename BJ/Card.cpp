@@ -37,3 +37,16 @@ Card::Card(string r, string s, int j)
 Card::~Card()
 {
 }
+
+Card& Card::operator=(const Card &rhs) {
+	// Check for self-assignment!
+	if (this == &rhs) {     // Same object?
+		return *this;
+	}
+	this->rank = rhs.rank;
+	this->suit = rhs.suit;
+	this->value = rhs.value;
+	this->isAce = rhs.isAce;
+
+	return *this;
+}
