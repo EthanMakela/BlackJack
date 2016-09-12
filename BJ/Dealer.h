@@ -8,7 +8,7 @@ using namespace std;
 class Dealer
 {
 public:
-	Card dealersCards[12];
+	Card* dealersCards;
 	int numbOfDealerCards;
 	int ithCard;
 	int minBet;

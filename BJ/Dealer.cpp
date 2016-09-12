@@ -9,10 +9,12 @@ Dealer::Dealer()
 	cout << "What is the minimum bet on the table\n";
 	cin >> minBet;
 	hasAce = false;
+	dealersCards = new Card[14];
 }
 
 Dealer::~Dealer()
 {
+	delete [] dealersCards;
 	
 }
 
