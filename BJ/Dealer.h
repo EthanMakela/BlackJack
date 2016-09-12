@@ -16,14 +16,14 @@ public:
 	bool hasAce;
 
 	
-	void DealFirstTwo(vector<Player>& PlayerList, vector<Card>& Deck);
-	void Deal(vector<Player>& PlayerList, vector<Card>& Deck);
+	void DealFirstTwo(vector<Player*>& PlayerList, vector<Card>& Deck);
+	void Deal(vector<Player*>& PlayerList, vector<Card>& Deck);
 	void PlayerSwap(Player& a, Player& b);
-	void TakeBets(vector<Player>& PlayerList, vector<Card>& Deck);
+	void TakeBets(vector<Player*>& PlayerList, vector<Card>& Deck);
 	int getIthCard();
-	void PrintHand(vector<Player>& PlayerList);
+	void PrintHand(vector<Player*>& PlayerList);
 	void PrintCards();
-	void DealerAI(vector<Player>& PlayerList, vector<Card>& Deck);
+	void DealerAI(vector<Player*>& PlayerList, vector<Card>& Deck);
 	void NewHand();
 
 	Dealer();

@@ -22,7 +22,7 @@ Player::Player() {
 Player::~Player()
 {
 	
-	//delete [] Cards;
+	delete [] Cards;
 	
 }
 

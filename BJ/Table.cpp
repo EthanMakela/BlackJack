@@ -78,21 +78,21 @@ void Table::AddMoney() {
 	cout << "Enter the name of the player who would like to buy in" << endl;
 	cout << "List of current players:" << endl;
 	for (int i = 0; i < PlayerList.size(); i++) {
-		cout << PlayerList[i].name << endl;
+		cout << PlayerList[i]->name << endl;
 	}
 	string playerName;
 	cin >> playerName;
-	Player temp;
-	for (vector<Player>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++) {
+	Player* temp;
+	for (vector<Player*>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		temp = *it;
-		if (playerName == temp.name) {
+		if (playerName == temp->name) {
 			int amount;
 			cout << "Enter the amount of money you would like to add" << endl;
 			cin >> amount;
-			temp.bankRoll += amount;
-			temp.moneyWithdrawn += amount;
+			temp->bankRoll += amount;
+			temp->moneyWithdrawn += amount;
 			*it = temp;
-			cout << temp.name << "'s new bankroll: " << temp.bankRoll << endl;
+			cout << temp->name << "'s new bankroll: " << temp->bankRoll << endl;
 		}
 	}
 	cout << "There is no player by that name at this table... Try again next hand" << endl;
@@ -103,14 +103,14 @@ void Table::RemovePlayer(Dealer& Jim) {
 	cout << "Enter the name of the player that would like to leave" << endl;
 	cout << "List of current players:" << endl;
 	for (int i = 0; i < PlayerList.size(); i++) {
-		cout << PlayerList[i].name << endl;
+		cout << PlayerList[i]->name << endl;
 	}
 	string leavingPlayer;
 	cin >> leavingPlayer;
-	Player temp;
-	for (vector<Player>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++) {
+	Player* temp;
+	for (vector<Player*>::iterator it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		temp = *it;
-		if (leavingPlayer == temp.name) {
+		if (leavingPlayer == temp->name) {
 
 			if (PlayerList.size() == 1){
 				//PrintFullStats
@@ -118,7 +118,7 @@ void Table::RemovePlayer(Dealer& Jim) {
 			}
 			else {
 				if (it == PlayerList.begin()) {
-					Jim.PlayerSwap(PlayerList[0], PlayerList[1]);
+					Jim.PlayerSwap(*PlayerList[0], *PlayerList[1]);
 					PlayerList.erase(it + 1);
 					
 				}
@@ -147,11 +147,11 @@ void Table::AddNewPlayers() {
 	}
 	else{
 		for (int i = 0; i < NumberOfNewPlayers; i++) {
-			Player newPlayer;
+			Player* newPlayer = new Player();
 			cout << "Enter the name of the player entering\n";
-			cin >> newPlayer.name;
-			cout << "Enter " << newPlayer.name << "'s bankroll'\n";
-			cin >> newPlayer.bankRoll;
+			cin >> newPlayer->name;
+			cout << "Enter " << newPlayer->name << "'s bankroll'\n";
+			cin >> newPlayer->bankRoll;
 			PlayerList.push_back(newPlayer);
 		}
 	}
@@ -170,14 +170,14 @@ void Table::AddPlayers() {
 	cin >> numbOfPlayers;
 	if (numbOfPlayers > 7) exit(2);
 	for (int i = 0; i < numbOfPlayers; i++) {
-		Player newPlayer;
+		Player* newPlayer = new Player();
 		cout << "Enter the name of the player entering\n";
-		cin >> newPlayer.name;
-		cout << "Enter " << newPlayer.name << "'s bankroll'\n";
+		cin >> newPlayer->name;
+		cout << "Enter " << newPlayer->name << "'s bankroll'\n";
 		int bankRoll;
 		cin >> bankRoll;
-		newPlayer.bankRoll = bankRoll;
-		newPlayer.moneyWithdrawn = bankRoll;
+		newPlayer->bankRoll = bankRoll;
+		newPlayer->moneyWithdrawn = bankRoll;
 		PlayerList.push_back(newPlayer);
 	}
 }

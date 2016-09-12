@@ -20,7 +20,7 @@ public:
 	
 
 	vector<Card> Deck;
-	vector<Player> PlayerList; 
+	vector<Player*> PlayerList; 
 	
 	Table();
 	~Table();
