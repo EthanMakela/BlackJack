@@ -10,13 +10,10 @@ public:
 	int value;
 	bool isAce;
 
-	bool operator==(const Card& other) const
-	{
-		return ((rank == other.rank) && (suit == other.suit));
-	}
+	bool operator==(const Card& other) const;
 
 	~Card();
 	Card();
-	Card(string r, string s, int j);
+	Card* NewCard(string r, string s, int j);
 	Card& Card::operator=(const Card &rhs);
 };
