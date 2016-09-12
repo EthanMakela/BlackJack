@@ -31,12 +31,13 @@ int main()
 	//Deal
 	table->PlayHand(*Jim);
 
-	table->PrintDeck(*Jim);
-	table->PrintBurnPile(*Jim);
+	//table->PrintDeck(*Jim);
+	//table->PrintBurnPile(*Jim);
 	//table->EndGame();
 	
-	delete table;
+	
 	delete Jim;
+	delete table;
 
 	return 0;
 

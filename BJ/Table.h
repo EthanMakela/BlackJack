@@ -19,7 +19,7 @@ public:
 	int handNumber;
 	
 
-	vector<Card> Deck;
+	Card** Deck;
 	vector<Player*> PlayerList; 
 	
 	Table();
@@ -39,6 +39,7 @@ public:
 	void AddMoney();
 	void RemovePlayer(Dealer& Jim);
 	void CreateDeck();
+	int GetDeckSize();
 	
 	
 	//Tests

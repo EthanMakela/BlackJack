@@ -6,14 +6,18 @@
 
 
 Table::Table() {
-	numbOfPlayers = 0;
+	numbOfPlayers = 1;
 	numbOfDecks = 0;
-	deckSize = numbOfDecks * 52;
+	
 	tableStakes = 100;
-	vector<Player> PlayerList;
-	vector<Card> Deck;
+	Deck = new Card*[deckSize];
 	handNumber = 0;
 	srand((unsigned)time(0));
+	cout << "How many decks?\n";
+	cin >> numbOfDecks;
+	deckSize = numbOfDecks * 52;
+	cout << "Enter how many people you would like to play with you (MAX 7)\n";
+	cin >> numbOfPlayers;
 	
 	
 }
@@ -22,6 +26,10 @@ Table::~Table() {
 	for (int i = 0; i < PlayerList.size(); i++) {
 		delete PlayerList[i];
 	}
+	for (int i = 0; i < deckSize; i++){
+		delete Deck[i];
+	}
+	
 }
 
 
@@ -31,7 +39,7 @@ void Table::PlayHand(Dealer& Jim) {
 	
 	handNumber++;
 	int answer;
-	system("cls");
+	//system("cls");
 
 	
 	Jim.TakeBets(PlayerList, Deck);
@@ -161,26 +169,24 @@ void Table::AddNewPlayers() {
 }
 
 bool Table::TimeToShuffle(Dealer& Jim) {
-	int size = Deck.size();
+	int size = deckSize;
 	int burnspot = size * .7;
 	if (size - Jim.ithCard < burnspot) return true;
 	return false;
 }
 
 void Table::AddPlayers() {
-	cout << "Enter how many people you would like to play with you (MAX 7)\n";
-	cin >> numbOfPlayers;
-	if (numbOfPlayers > 7) exit(2);
+	
+	//Player* newPlayers = new Player[numbOfPlayers];
 	for (int i = 0; i < numbOfPlayers; i++) {
 		Player* newPlayer = new Player();
 		cout << "Enter the name of the player entering\n";
 		cin >> newPlayer->name;
 		cout << "Enter " << newPlayer->name << "'s bankroll'\n";
-		int bankRoll;
-		cin >> bankRoll;
-		newPlayer->bankRoll = bankRoll;
-		newPlayer->moneyWithdrawn = bankRoll;
+		cin >> newPlayer->bankRoll;
+		newPlayer->moneyWithdrawn = newPlayer->bankRoll;
 		PlayerList.push_back(newPlayer);
+		
 	}
 } 
 
@@ -189,13 +195,13 @@ void Table::CreateDeck() {
 	string cardNames[13] = { "Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
 	string cardSuit[4] = { "Spades", "Hearts", "Diamonds", "Clubs" };
 	
-	cout << "How many decks?\n";
-	cin >> numbOfDecks;
+	
+	int count = 0;
 	for (int z = 0; z < numbOfDecks; z++) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 13; j++) {
-			
-				Deck.push_back(Card(cardNames[j], cardSuit[i], j));
+				Deck[count] = Deck[count]->NewCard(cardNames[j], cardSuit[i], j);
+				count++;
 			}
 		}
 	}
@@ -205,17 +211,17 @@ void Table::CreateDeck() {
 
 void Table::PrintDeck(Dealer& Jim) {
 	cout << "Printing Deck:\n";
-	for (unsigned i = Jim.ithCard; i < Deck.size(); i++) {
-		cout << ' ' << Deck[i].rank << " of " << Deck[i].suit;
+	for (unsigned i = Jim.ithCard; i < deckSize; i++) {
+		cout << ' ' << Deck[i]->rank << " of " << Deck[i]->suit;
 	} cout << '\n';
 
-	cout << "DeckSize: " << Deck.size() - Jim.ithCard << "\n\n";
+	cout << "DeckSize: " << deckSize - Jim.ithCard << "\n\n";
 }
 
 void Table::PrintBurnPile(Dealer& Jim) {
 	cout << "Printing BUrn Pile\n";
 	for (int i = 0; i < Jim.ithCard; i++) {
-		cout << ' ' << Deck[i].rank << " of " << Deck[i].suit;
+		cout << ' ' << Deck[i]->rank << " of " << Deck[i]->suit;
 	} cout << '\n';
 
 	cout << "PileSize: " << Jim.ithCard << "\n\n";
@@ -245,9 +251,9 @@ secondHalf.erase(secondHalf.begin(), secondHalf.end());
 
 void Table::KnuthShuffle(void) {
 	int rand;
-	for (int i = Deck.size() - 1; i >= 0; i--) {
+	for (int i = deckSize - 1; i >= 0; i--) {
 		rand = Random();
-		Swap(Deck[i], Deck[rand]);
+		Swap(*Deck[i], *Deck[rand]);
 	}
 }
 
@@ -258,9 +264,11 @@ void Table::Swap(Card& a, Card& b) {
 }
 
 int Table::Random() {
-	int r = rand() % Deck.size(); // Randomizing the number between 0-51.
+	int r = rand() % deckSize; // Randomizing the number between 0-51.
 	return r;
 }
+
+
 
 
 

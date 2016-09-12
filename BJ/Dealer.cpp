@@ -19,7 +19,7 @@ Dealer::~Dealer()
 }
 
 
-void Dealer::TakeBets(vector<Player*>& PlayerList, vector<Card>& Deck) {
+void Dealer::TakeBets(vector<Player*>& PlayerList, Card** & Deck) {
 	cout << "Place Your Bets\n";
 	vector<Player*>::iterator it;
 	Player* current;
@@ -107,21 +107,21 @@ void Dealer::TakeBets(vector<Player*>& PlayerList, vector<Card>& Deck) {
 }
 
 
-void Dealer::DealFirstTwo(vector<Player*>& PlayerList, vector<Card>& Deck) {
+void Dealer::DealFirstTwo(vector<Player*>& PlayerList, Card** & Deck) {
 	//Deal PLAYERS their FIRSTCARD
 	Player* current;
 	vector<Player*>::iterator it;
 	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		current = *it;
 		if (current->currentBet != 0) {
-			current->Cards[0] = Deck[ithCard];
+			current->Cards[0] = *Deck[ithCard];
 			current->numbOfCards++;
 			ithCard++;
 		}
 		*it = current;
 	}
 	//Deal the DEALLER their FIRSTCARD
-	dealersCards[0] = Deck[ithCard];
+	dealersCards[0] = *Deck[ithCard];
 	//dealerFirst = &dealersCards[0];
 	numbOfDealerCards++;
 	ithCard++;
@@ -129,21 +129,21 @@ void Dealer::DealFirstTwo(vector<Player*>& PlayerList, vector<Card>& Deck) {
 	for (it = PlayerList.begin(); it != PlayerList.end(); it++) {
 		current = *it;
 		if (current->currentBet != 0) {
-			current->Cards[1] = Deck[ithCard];
+			current->Cards[1] = *Deck[ithCard];
 			current->numbOfCards++;
 			ithCard++;
 		}
 		*it = current;
 	}
 	//Deal the Dealler their SECONDCARD
-	dealersCards[1] = Deck[ithCard];
+	dealersCards[1] = *Deck[ithCard];
 	//dealerSecond = &dealersCards[1];
 	numbOfDealerCards++;
 	ithCard++;
 	PrintHand(PlayerList);
 }
 
-void Dealer::Deal(vector<Player*>& PlayerList, vector<Card>& Deck) {
+void Dealer::Deal(vector<Player*>& PlayerList, Card** & Deck) {
 	Player* current;
 	vector<Player*>::iterator it;
 	int curValue = 0;
@@ -185,8 +185,8 @@ void Dealer::Deal(vector<Player*>& PlayerList, vector<Card>& Deck) {
 
 			switch (answer) {
 			case 1: //HIT
-				current->Cards[current->numbOfCards] = Deck[ithCard];
-				curValue += Deck[ithCard].value;
+				current->Cards[current->numbOfCards] = *Deck[ithCard];
+				curValue += Deck[ithCard]->value;
 				current->total = curValue;
 				ithCard++;
 				current->numbOfCards++;
@@ -198,8 +198,8 @@ void Dealer::Deal(vector<Player*>& PlayerList, vector<Card>& Deck) {
 			case 3:
 				//TO come
 			case 4: //DOUBLE DOWN
-				curValue += Deck[ithCard].value;
-				current->Cards[current->numbOfCards] = Deck[ithCard];
+				curValue += Deck[ithCard]->value;
+				current->Cards[current->numbOfCards] = *Deck[ithCard];
 				current->total += curValue;
 				ithCard++;
 				current->numbOfCards++;
@@ -233,7 +233,7 @@ void Dealer::Deal(vector<Player*>& PlayerList, vector<Card>& Deck) {
 
 }
 
-void Dealer::DealerAI(vector<Player*>& PlayerList, vector<Card>& Deck) {
+void Dealer::DealerAI(vector<Player*>& PlayerList, Card** & Deck) {
 	vector<Player*>::iterator it;
 	Player* current;
 	//total = dealerFirst->value + dealerSecond->value;
@@ -261,7 +261,7 @@ void Dealer::DealerAI(vector<Player*>& PlayerList, vector<Card>& Deck) {
 			hasAce = true;
 		}
 		cout << "Dealer HITS" << endl;
-		dealersCards[numbOfDealerCards] = Deck[ithCard];
+		dealersCards[numbOfDealerCards] = *Deck[ithCard];
 		total += dealersCards[numbOfDealerCards].value;
 		ithCard++;
 		numbOfDealerCards++;

@@ -9,29 +9,35 @@ Card::Card() {
 	isAce = false;
 }
 
-Card::Card(string r, string s, int j)
+Card* Card::NewCard(string r, string s, int j)
 {
-	
-	rank = r;
-	suit = s;
+	Card* temp = new Card();
+	temp->rank = r;
+	temp->suit = s;
 	switch (j) {
 		case 0:
-			isAce = true;
-			value = 11;
+			temp->isAce = true;
+			temp->value = 11;
 			break;
 		case 10: 
-			value = 10;
+			temp->value = 10;
 			break;
 		case 11:
-			value = 10;
+			temp->value = 10;
 			break;
 		case 12:
-			value = 10;
+			temp->value = 10;
 			break;
 		default:
-			value = j + 1;
+			temp->value = j + 1;
 			break;
 	}
+	return temp;
+}
+
+bool Card::operator==(const Card& other) const
+{
+	return ((rank == other.rank) && (suit == other.suit));
 }
 
 Card::~Card()
